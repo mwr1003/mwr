@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./layui-v2.5.7/layui/css/layui.css">
+</head>
+
+<body>
+    <button id="btn1">按钮1</button><br>
+    <button id="btn2">按钮2</button><br>
+    <button id="btn3">按钮3</button><br>
+    <input type="text" id="ipt">
+</body>
+<script src="./layui-v2.5.7/layui/layui.all.js"></script>
+
+<script>
+    layui.use('layer', function () {
+        // 找到layer对象：专门封装弹窗对象
+        var layer = layui.layer;
+
+        // 1.简单弹窗
+        var btn1 = document.querySelector("#btn1");
+        btn1.onclick = function () {
+            layer.msg("简单弹窗的内容");
+        }
+
+
+        // 2.询问弹窗：有确认、取消；您确认不再看会？确认忍心要删除您的爱妃？
+        var btn2 = document.querySelector("#btn2");
+        btn2.onclick = function () {
+
+            layer.confirm('确认忍心要删除您的爱妃？', {
+                btn: ['确认', '取消'] // 配置按钮显示文字
+            }, function (index) {
+                // index：值number，用于关闭该弹窗一个凭证；
+                layer.close(index); // 该方法为关闭该弹窗;
+            }, function () {
+                console.log(2);
+                // 没有写关闭弹窗？取消本来意思是？我不做这个事情，关闭弹窗！内部封装好了！
+            });
+
+        }
+
+
+        // 3. tips弹窗：吸附在某个节点的旁边；
+        var btn3 = document.querySelector("#btn3");
+        var ipt = document.querySelector("#btn2");
+        btn3.onclick = function () {
+            var val = ipt.value;
+            if (val == "") {
+                // 有个弹窗提醒：友好的方式，吸附式
+                layer.tips("该项不能为空", "#btn2");
+            }
+        }
+    });
+</script>
+
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script src="../jQuery.min.js"></script>
+<script>
+    // $.ajax({
+    //     url: "http://www.liulongbin.top:3006/api/jsonp",
+    //     data: {},
+    //     dataType: 'jsonp', //动态创建script
+    //     success: function (res) {
+    //         console.log(res);
+    //     }
+    // })
+
+
+
+    function fn(obj) {
+        console.log(obj);
+    }
+    $.ajax({
+        url: "http://www.liulongbin.top:3006/api/jsonp",
+        data: {},
+        dataType: 'jsonp', //动态创建script
+        // jsonp: 'mingzi', //后端定义的名字
+        jsonpCallback: 'fn' //我们自己定义的名字
+
+    })
+</script>
+
+</html>

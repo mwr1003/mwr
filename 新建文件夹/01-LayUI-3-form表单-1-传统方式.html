@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./layui/css/layui.css">
+</head>
+
+<body>
+  <form>
+    <div class="item">
+      昵称：<input type="text" name="nickname" id="nickname">
+    </div>
+    <div class="item">
+      密码：<input type="password" name="password" id="password">
+    </div>
+    <div class="item">
+      备注：<input type="text" name="info" id="info">
+    </div>
+    <!-- 按钮 -->
+    <button>提交</button>
+  </form>
+</body>
+<script src="./jquery.js"></script>
+<script src="./layui/layui.js"></script>
+<script>
+  // 初始化调用layer模块
+  layui.use('layer', function() {
+    var layer = layui.layer;
+
+
+    // 需求：提交数据
+    //      1.用户名：字母数字_ 组合 4-6位；
+    //      2.密码：6-9 数字；
+    //      3.备注：字母 20-30之间
+
+
+
+    // 1.注册事件，给谁注册？注册什么事件？
+    $("form").on("submit", function(e) {
+      // 阻止默认行为；
+      e.preventDefault();
+
+      // 收集数据之前：需要做一步验证  专门获取value值！JQ.val();
+      // 涉及到不得不：填写id值，获取值，判断值；
+      //     1.不能为空  
+      //     2.符合上面要求
+      var nickname = $("#nickname").val();
+      var password = $("#password").val();
+      var info = $("#info").val();
+
+
+      // ---------------------------1.不能为空  
+      if (nickname == "") {
+        // layer弹窗？
+        layer.msg("昵称不能为空");
+        return;
+      }
+      if (password == "") {
+        // layer弹窗？
+        layer.msg("密码不能为空");
+        return;
+      }
+      if (info == "") {
+        // layer弹窗？
+        layer.msg("备注不能为空");
+        return;
+      }
+      // ---------------------------2.符合要求
+      // 昵称：字母数字_ 组合 4-6位
+      var reg = /^[a-zA-Z0-9_]{4,6}$/;
+      if (reg.test(nickname) == false) {
+        layer.msg("昵称不符合要求");
+        return;
+      }
+      // 下面：每一项正则！专门判断！
+
+
+
+
+
+      // 2.收集数据：要求：必须输入框有name属性值设置；
+      var params = $(this).serialize();
+      console.log(params);
+
+    });
+  });
+</script>
+
+</html>

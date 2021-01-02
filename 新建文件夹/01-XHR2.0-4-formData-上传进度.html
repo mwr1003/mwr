@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="./lib/bootstrap.css">
+  <style>
+    progress {
+      width: 100%;
+    }
+    
+    .info {
+      text-align: center;
+      line-height: 50px;
+      color: #222;
+      font-size: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <form>
+    <input type="file" id="myfile" name="avatar" multiple>
+    <button>上传</button>
+  </form>
+
+
+
+  <img src="" id="myimg">
+
+
+  <!-- 只是控制进度，文字信息它不管-->
+  <progress max="100" value="0"></progress>
+  <!-- 单独来个盒子 -->
+  <div class="info">0%</div>
+
+
+</body>
+
+<script type="text/javascript">
+  // 1.progress：进度  HTML5标签；<progress max="100" value="0"></progress>
+  //   max="总得长度" value="当前已经发生的长度"；max一般就是100不动！
+
+
+  // 2.上传文件：进度问题不可避免需求；
+  var form = document.querySelector("form");
+  var progress = document.querySelector("progress");
+  var div = document.querySelector(".info");
+  form.onsubmit = function(e) {
+    e.preventDefault();
+
+    // 原生ajax 1 2 3 4 
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('post', 'http://www.liulongbin.top:3006/api/upload/avatar');
+
+    var fd = new FormData(this);
+
+    // 原生知识：上传的过程中，后面的函数是会执行的！
+    xhr.upload.onprogress = function(e) {
+      // e.lengthComputable  文件是否正在上传
+
+      // e.loaded            已经上传的大小
+      // e.total             文件的总大小
+      //   计算：百分比；设置给progress的value值；
+      //        取整和小数位控制看需求：parseInt  Math.floor()  Math.ceil()
+      // 进度条
+      var res = Math.floor(e.loaded / e.total * 100);
+      progress.value = res;
+
+
+      // 文字信息
+      div.innerHTML = res + "%";
+
+    }
+    xhr.send(fd);
+
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        console.log(xhr.responseText);
+      }
+    }
+  }
+</script>
+
+</html>

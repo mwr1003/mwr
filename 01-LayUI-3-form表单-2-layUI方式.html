@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./layui/css/layui.css">
+</head>
+
+<body>
+  <form class="layui-form">
+    <!-- <div class="item">
+      昵称：<input type="text" name="nickname" lay-verify="required|nickname">
+    </div> -->
+    <div class="item">
+      密码：<input type="password" name="password" lay-verify="required|pwd">
+    </div>
+    <div class="item">
+      备注：<input type="text" name="info" lay-verify="required">
+    </div>
+    <!-- <div class="item">
+      其他：<input type="text" name="info" lay-verify="required|nickname">
+    </div> -->
+    <!-- <div class="item">
+      电话号码：<input type="text" name="phone" lay-verify="required|phone">
+    </div> -->
+    <!-- <div class="item">
+      邮箱：<input type="text" name="phone" lay-verify="required|email">
+    </div> -->
+    <!-- 按钮 -->
+    <button lay-submit>提交</button>
+  </form>
+</body>
+<script src="./jquery.js"></script>
+<script src="./layui/layui.js"></script>
+<script>
+  // 初始化调用layer模块
+  layui.use(['layer', 'form'], function() {
+    var layer = layui.layer;
+    var form = layui.form;
+
+
+    // 传统方式：复杂
+    //      1.input 框还的设置id;
+    //      2.在要提交执行函数内部：获取值！判断值！写正则！弹窗提醒！
+
+    // ***********************************************layUI.form
+    // 1.前提：form模块；模块初始化；
+    //     单个模块引入： layui.use("layer",fn)
+    //     多个模块引入： layui.use(['layer', 'form'],fn)
+
+    // 2.HTML结构上：设置
+    //    form表单：类名 class="layui-form"
+    //    button添加 lay-submit
+
+    // 需求1：不能为空
+    //    input添加 lay-verify="required"
+
+    // 需求2：符合上面要求，翻译过来就是一些正则！
+    //    内置正则：lay-verify="required|email"  
+    //    自定义规则名：学会如何自定义如何用？
+
+    // 优点：不需要获取JQ对象，可以多次使用！
+    form.verify({
+      // 自定义规则名：判断正则
+      nickname: function(value, item) {
+        // 规则：
+        //   在这自己写一个正则，用于判断 value值是否符合 要求；
+        //   如果不符合，return 直接返回 不符合的提示文字；
+        var reg = /^[a-zA-Z0-9_]{4,6}$/;
+        if (reg.test(value) == false) {
+          return "昵称不符合要求";
+        }
+      },
+      pwd: [
+        // 验证正则
+        /^[0-9]{6,9}$/,
+        // 不符合要求 提示的文字
+        "你输入密码不符合要求"
+      ],
+
+    })
+
+
+    // 1.注册事件，给谁注册？注册什么事件？
+    $("form").on("submit", function(e) {
+      // 阻止默认行为；
+      e.preventDefault();
+
+      // 2.收集数据：要求：必须输入框有name属性值设置；
+      var params = $(this).serialize();
+      console.log(params);
+
+    });
+  });
+</script>
+
+</html>
